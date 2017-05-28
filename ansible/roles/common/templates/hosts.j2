@@ -2,7 +2,5 @@
 ::1         localhost ip6-localhost ip6-loopback
 
 {% for item in groups['all'] %}
-{% if 'ansible_eth1' in hostvars[item] %}
-{{ hostvars[item]['ansible_eth1']['ipv4']['address'] }} {{ item }}
-{% endif %}
+{{ hostvars[item].ansible_all_ipv4_addresses[1] }} {{ item }}
 {% endfor %}

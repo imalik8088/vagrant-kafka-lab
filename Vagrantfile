@@ -12,6 +12,9 @@ Vagrant.configure("2") do |config|
 
   config.vm.synced_folder "download", "/vagrant/download", create: true
 
+  config.vm.provision :shell, :inline => "echo \"vagrant\"|passwd --stdin vagrant"
+  config.vm.provision :shell, :inline => "echo \"vagrant\"|passwd --stdin root"
+
   (1..KAFKA).each do |i|
     config.vm.define "kafka-#{i}" do |kafka|
       kafka.vm.hostname = "kafka-#{i}"
