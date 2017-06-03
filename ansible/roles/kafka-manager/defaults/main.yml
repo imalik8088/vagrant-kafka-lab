@@ -1,0 +1,4 @@
+---
+version: "1.3.3.6"
+file: kafka-manager.tar.gz
+url: https://github.com/yahoo/kafka-manager/archive/{{ version }}.tar.gz

@@ -1,0 +1,73 @@
+---
+- name: download Kafka Manager {{ url }}
+  run_once: true
+  get_url:
+    url: "{{url}}"
+    dest: "{{ download }}/{{ file }}"
+
+- name: set ownership on {{ kafka_manager_home }}
+  become: yes
+  become_method: sudo
+  file:
+    path: "{{ kafka_manager_home }}"
+    owner: vagrant
+    group: vagrant
+    recurse: yes
+    mode: 0755
+    state: directory
+    force: yes
+
+- name: extract {{ download }}/{{ file }}
+  become: yes
+  become_method: sudo
+  unarchive:
+    src: "{{ download }}/{{ file }}"
+    dest: "{{ kafka_manager_home }}"
+    copy: no
+    extra_opts: [--strip-components=1]
+    owner: vagrant
+    group: vagrant
+
+- name: build kafka-manager
+  raw: "cd {{ kafka_manager_home }}; ./sbt clean dist"
+  when: inventory_hostname == ansible_play_hosts[0]
+
+- name: create web folder for kafka-manager
+  become: yes
+  become_method: sudo
+  file:
+    path: "{{usr_local}}/kafka-manager-web"
+    owner: vagrant
+    group: vagrant
+    recurse: yes
+    mode: 0755
+    state: directory
+    force: yes
+
+- name: copy build kafka-manager to {{ usr_local }}
+  become: yes
+  become_method: sudo
+  unarchive:
+    src: "{{kafka_manager_home}}/target/universal/kafka-manager-{{version}}.zip"
+    dest: "{{usr_local}}"
+    remote_src: yes
+    owner: vagrant
+    group: vagrant
+  tags:
+    - aaa
+
+- name: change owership
+  become: yes
+  become_method: sudo
+  file:
+    path: "{{usr_local}}/kafka-manager-{{version}}"
+    owner: vagrant
+    group: vagrant
+    recurse: yes
+    mode: 0755
+    state: directory
+    force: yes
+  tags:
+    - aaa
+
+

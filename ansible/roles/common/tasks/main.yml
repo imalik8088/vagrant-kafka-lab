@@ -1,6 +1,9 @@
 ---
-- name: install wget
-  yum: name=wget state=present
+- name: install packages
+  yum: name={{item}} state=present
+  with_items:
+    - wget
+    - unzip
 
 - name: "generate /etc/hosts.ansible file"
   become: yes

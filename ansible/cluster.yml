@@ -16,3 +16,9 @@
   serial: 100%
   roles:
     - kafka
+
+- hosts: kafka-1
+  remote_user: vagrant
+  serial: 100%
+  roles:
+    - kafka-manager
