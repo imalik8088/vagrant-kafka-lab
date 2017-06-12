@@ -39,6 +39,8 @@
     src: templates/server.properties.j2
     dest: "{{ kafka_home }}/config/server.properties"
   register: kafka_config
+  tags:
+    - new-kafka-config
 
 - name: create {{ kafka_log_dir }}
   file:
@@ -52,6 +54,14 @@
     src: templates/kafka.service.j2
     dest: "{{ system_units }}/kafka.service"
   register: kafka_service
+  tags:
+    - new-kafka-config
+
+- name: export JMX Port of
+  lineinfile:
+    dest: "{{ kafka_home }}/bin/kafka-server-start.sh"
+    insertbefore: 'exec'
+    line: 'export JMX_PORT=${JMX_PORT:-9999}'
 
 - name: restart kafka
   become: yes
@@ -61,3 +71,12 @@
     enabled: yes
     state: restarted
     name: kafka
+  tags:
+    - new-kafka-config
+
+- name: add path to scripts folder
+  lineinfile:
+    dest: /home/vagrant/.bash_profile
+    insertbefore: 'export PATH'
+    line: 'PATH=/vagrant/scripts:$PATH'
+
