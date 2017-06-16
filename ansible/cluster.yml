@@ -21,4 +21,4 @@
   remote_user: vagrant
   serial: 100%
   roles:
-    - kafka-manager
+    - { role: kafka-manager-download, tags: ['kafka-manager-download'] }

@@ -31,7 +31,7 @@ Vagrant.configure("2") do |config|
 
       if i == KAFKA
         kafka.vm.provision :ansible do |ansible|
-          ansible.limit = "zookeeper,kafka,kafka-manager"
+          ansible.limit = "zookeeper,kafka,kafka-manager-download"
           ansible.playbook = "ansible/cluster.yml"
           ansible.inventory_path = "ansible/inventories/vbox"
         end

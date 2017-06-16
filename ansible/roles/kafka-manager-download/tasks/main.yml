@@ -1,0 +1,44 @@
+---
+- name: download Kafka Manager {{ url }}
+  run_once: true
+  get_url:
+    url: "{{url}}"
+    dest: "{{ download }}/{{ file }}"
+
+- name: extract {{ download }}/{{ file }}
+  become: yes
+  become_method: sudo
+  unarchive:
+    src: "{{ download }}/{{ file }}"
+    dest: "/tmp/"
+    copy: no
+
+- name: Copy extracted kafka-manager
+  become: yes
+  become_method: sudo
+  raw: "mv /tmp/{{fileExtracted}} {{ kafka_manager_home }}"
+
+- name: set ownership on {{ kafka_manager_home }}
+  become: yes
+  become_method: sudo
+  file:
+    path: "{{ kafka_manager_home }}"
+    owner: vagrant
+    group: vagrant
+    recurse: yes
+    mode: 0755
+    state: directory
+
+- name: push application.conf
+  template:
+    src: templates/application.conf.j2
+    dest: "{{ kafka_manager_home }}/conf/application.conf"
+
+- name: start kafka-manager
+  shell: "nohup {{ kafka_manager_home }}/bin/kafka-manager -Dconfig.file={{ kafka_manager_home }}/conf/application.conf &"
+
+- name: create softlink to kafka-manager in homedir
+  file:
+    src: "{{kafka_manager_home}}"
+    dest: /home/vagrant/kafka-manager
+    state: link

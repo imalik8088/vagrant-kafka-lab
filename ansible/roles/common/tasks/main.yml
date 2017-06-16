@@ -16,3 +16,8 @@
     owner: root
     group: root
     mode: 0644
+
+- name: disable firewall
+  become: yes
+  become_method: sudo
+  raw: "systemctl disable firewalld && systemctl stop firewalld"

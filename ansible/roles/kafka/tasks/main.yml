@@ -57,7 +57,7 @@
   tags:
     - new-kafka-config
 
-- name: export JMX Port of
+- name: export JMX Port of for kafka-manager
   lineinfile:
     dest: "{{ kafka_home }}/bin/kafka-server-start.sh"
     insertbefore: 'exec'
