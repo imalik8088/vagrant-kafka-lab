@@ -6,6 +6,7 @@
   with_items:
     - wget
     - unzip
+    - vim
 
 - name: "generate /etc/hosts.ansible file"
   become: yes
