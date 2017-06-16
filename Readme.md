@@ -1,16 +1,8 @@
 #Vagrant Kafka Lab
 
+**Prerequistes:** Vagrant, Virtual Box (Ansible)
 
-## Prerequistes
-
-- Git
-- Vagrant
-- Virtual Box
-- Ansible
-
-
-## Installation
-
+### Installation
 
 ```bash
 $ git clone https://github.com/ineedcode/vagrant-kafka-lab
@@ -18,6 +10,21 @@ $ cd vagrant-kafka-lab
 $ vagrant up
 ```
 
+### Commands
+
+1) use scripts in kafka cluster
+
+```bash
+vagrant ssh kafka-1
+list-topics.sh #lists all topics
+
+```
+
+2) Deploy new kafka configs
+
+```bash
+ansible-playbook ansible/cluster.yml --tags "new-kafka-config"
+```
 
 ### Kafka Connect
 

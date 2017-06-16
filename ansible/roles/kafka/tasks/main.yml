@@ -80,3 +80,8 @@
     insertbefore: 'export PATH'
     line: 'PATH=/vagrant/scripts:$PATH'
 
+- name: create softlink to kafka in homedir
+  file:
+    src: "{{kafka_home}}"
+    dest: /home/vagrant/kafka
+    state: link

@@ -73,3 +73,9 @@
     state: restarted
     name: zookeeper
     daemon_reload: yes
+
+- name: create softlink to zookeeper in homedir
+  file:
+    src: "{{zookeeper_home}}"
+    dest: /home/vagrant/zookeeper
+    state: link
