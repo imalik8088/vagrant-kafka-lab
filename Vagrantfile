@@ -17,7 +17,7 @@ Vagrant.configure("2") do |config|
   (1..KAFKA).each do |i|
     config.vm.define "kafka-#{i}" do |kafka|
       kafka.vm.hostname = "kafka-#{i}"
-      kafka.vm.network "forwarded_port", guest: 9000, host: 9000 if i == 1
+      kafka.vm.network "forwarded_port", guest: 9000, host: 9000 if i == 1 # kafka-manager
       kafka.vm.provider "virtualbox" do |vb|
         if i == 1
           vb.memory = "2048"

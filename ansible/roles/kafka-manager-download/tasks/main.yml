@@ -42,3 +42,9 @@
     src: "{{kafka_manager_home}}"
     dest: /home/vagrant/kafka-manager
     state: link
+
+- name: start kafka manager after restart
+  cron:
+    name: "start kafka manager after restart"
+    special_time: reboot
+    job: "nohup {{ kafka_manager_home }}/bin/kafka-manager -Dconfig.file={{ kafka_manager_home }}/conf/application.conf &"
