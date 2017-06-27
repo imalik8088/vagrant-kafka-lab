@@ -1,0 +1,11 @@
+[Unit]
+Description=Kafka-Manager Service
+After=network.target
+
+[Service]
+User=vagrant
+ExecStart={{ kafka_manager_home }}/start-up.sh
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target

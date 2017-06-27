@@ -34,17 +34,44 @@
     src: templates/application.conf.j2
     dest: "{{ kafka_manager_home }}/conf/application.conf"
 
-- name: start kafka-manager
-  shell: "nohup {{ kafka_manager_home }}/bin/kafka-manager -Dconfig.file={{ kafka_manager_home }}/conf/application.conf &"
-
 - name: create softlink to kafka-manager in homedir
   file:
     src: "{{kafka_manager_home}}"
     dest: /home/vagrant/kafka-manager
     state: link
 
+- name: start script for kafka-manager
+  become: yes
+  become_method: sudo
+  template:
+    src: templates/start.sh.j2
+    dest: "{{ kafka_manager_home }}/start-up.sh"
+    mode: 0755
+
+
+- name: start kafka-manager
+  shell: "nohup {{ kafka_manager_home }}start-up.sh &"
+
 - name: start kafka manager after restart
   cron:
     name: "start kafka manager after restart"
     special_time: reboot
-    job: "nohup {{ kafka_manager_home }}/bin/kafka-manager -Dconfig.file={{ kafka_manager_home }}/conf/application.conf &"
+    job: "nohup {{ kafka_manager_home }}start-up.sh &"
+
+- name: install kafka-manager systemd unit file
+  become: yes
+  become_method: sudo
+  template:
+    src: templates/kafka-manager.service.j2
+    dest: "{{ system_units }}/kafka-manager.service"
+  register: km_service
+
+- name: started kafka-manager
+  become: yes
+  become_method: sudo
+  when: km_service.changed
+  systemd:
+    enabled: yes
+    state: started
+    name: kafka-manager
+    daemon_reload: yes
