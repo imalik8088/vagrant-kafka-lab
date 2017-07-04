@@ -1,18 +1,21 @@
 ---
 
-- name: "push connect-standalone.properties"
+- name: push connect-standalone.properties
   template:
     src: templates/connect-standalone.properties.j2
     dest: "{{ kafka_home }}/config/connect-standalone.properties"
 
-
-- name: "push connect-standalone.properties"
+- name: download {{ mongodb_jar_url }}
+  run_once: true
   get_url:
     url: "{{ mongodb_jar_url }}"
-    dest: "{{ kafka_home }}/libs/connect-mongodb-1.1.jar"
+    dest: "{{ download }}/connect-mongodb-1.1.jar"
     mode: 0755
 
+- name: copy connect-mongodb-1.1.jar to kafka libs folder
+  copy:
+    remote_src: True
+    src: "{{ download }}/connect-mongodb-1.1.jar"
+    dest: "{{ kafka_home }}/libs/connect-mongodb-1.1.jar"
 
 
-
-# http://docs.confluent.io/current/connect/userguide.html#distributed-mode
