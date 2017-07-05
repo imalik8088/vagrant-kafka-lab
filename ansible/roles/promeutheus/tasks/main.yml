@@ -1,0 +1,70 @@
+---
+- name: "download {{ promeutheus_url }}"
+  run_once: true
+  get_url:
+    url: "{{ prometheus_url }}"
+    dest: "{{ download }}/{{ prometheus_name }}.tar.gz"
+
+- name: "extract {{ download }}/{{ prometheus_name }}"
+  become: yes
+  become_method: sudo
+  unarchive:
+    src: "{{ download }}/{{ prometheus_name }}.tar.gz"
+    dest: "{{ usr_local }}"
+    copy: no
+
+- name: "download {{ node_exporter_url }}"
+  run_once: true
+  get_url:
+    url: "{{ node_exporter_url }}"
+    dest: "{{ download }}/{{ node_exporter_name }}.tar.gz"
+
+- name: "extract {{ download }}/{{ node_exporter_name }}"
+  become: yes
+  become_method: sudo
+  unarchive:
+    src: "{{ download }}/{{ node_exporter_name }}.tar.gz"
+    dest: "{{ usr_local }}"
+    copy: no
+
+- name: "download {{ grafana_url }}"
+  run_once: true
+  get_url:
+    url: "{{ grafana_url }}"
+    dest: "{{ download }}/{{ grafana_name }}.tar.gz"
+
+- name: "extract {{ download }}/{{ grafana_name }}"
+  become: yes
+  become_method: sudo
+  unarchive:
+    src: "{{ download }}/{{ grafana_name }}.tar.gz"
+    dest: "{{ usr_local }}"
+    copy: no
+    owner: vagrant
+    group: vagrant
+
+- name: create jmx_exporter folder
+  become: yes
+  become_method: sudo
+  file:
+    owner: vagrant
+    group: vagrant
+    path: "{{ usr_local }}/jmx_exporter"
+    state: directory
+
+- name: "download {{ jmx_exporter_url }}"
+  run_once: true
+  get_url:
+    url: "{{ jmx_exporter_url }}"
+    dest: "{{ download }}/{{ jmx_exporter_name }}.jar"
+
+- name: "copy {{ jmx_exporter_name }}.jar"
+  copy:
+    remote_src: True
+    src: "{{ download }}/{{ jmx_exporter_name }}.jar"
+    dest: "{{ usr_local }}/jmx_exporter"
+
+- name: push prometheus_kafkfa.yml to jmx_exporter
+  template:
+    src: templates/prometheus_kafkfa.yml.j2
+    dest: "{{ usr_local }}/jmx_exporter/prometheus_kafkfa.yml"

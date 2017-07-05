@@ -18,8 +18,10 @@
     - kafka
     - { role: kafka-connect, tags: ['kafka-connect'] }
 
+# ONLY ON FIRST NODE
 - hosts: kafka-1
   remote_user: vagrant
   serial: 100%
   roles:
     - { role: kafka-manager-download, tags: ['kafka-manager-download'] }
+    - { role: promeutheus, tags: ['promeutheus'] }
