@@ -2,6 +2,13 @@
 
 **Prerequistes:** Vagrant, Virtual Box (Ansible)
 
+### Web UIs
+
+Kafka-Manager: http://192.168.10.2:9000/
+Prometheus-UI: http://192.168.10.2:9090/
+Grafana: http://192.168.10.2:3000/
+
+
 ### Installation
 
 ```bash
