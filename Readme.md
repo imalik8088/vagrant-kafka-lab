@@ -1,12 +1,12 @@
 #Vagrant Kafka Lab
 
-**Prerequistes:** Vagrant, Virtual Box (Ansible)
+**Prerequistes:** Vagrant, Virtual Box and Ansible
 
 ### Web UIs
 
-Kafka-Manager: http://192.168.10.2:9000/
-Prometheus-UI: http://192.168.10.2:9090/
-Grafana: http://192.168.10.2:3000/
+- Grafana: [http://192.168.10.2:3000](http://192.168.10.2:3000)
+- Kafka-Manager: [http://192.168.10.2:9000](http://192.168.10.2:9000)
+- Prometheus-UI: [http://192.168.10.2:9090](http://192.168.10.2:9090)
 
 
 ### Installation
@@ -17,9 +17,12 @@ $ cd vagrant-kafka-lab
 $ vagrant up
 ```
 
-### Commands
+##### Grafana Konfiguration
+access to Grafana and use the default credentials with `admin:admin`. Add Dashboard with Prometheus as source, the source is available at localhost:9000.
 
-1) use scripts in kafka cluster
+## Usage
+
+##### Use pre build commands to interact with Kafka
 
 ```bash
 vagrant ssh kafka-1
@@ -27,17 +30,14 @@ list-topics.sh #lists all topics
 
 ```
 
-2) Deploy new kafka configs
+##### Deploy new Kafka Broker configs
 
 ```bash
 ansible-playbook ansible/cluster.yml --tags "new-kafka-config"
 ```
 
-### Kafka Connect
+##### Kafka Connect
 
 ```bash
 ./bin/connect-standalone.sh config/connect-standalone.properties config/connect-file-source.properties config/connect-file-sink.properties
 ```
-
-./bin/kafka-topics.sh --zookeeper localhost:2181 --list
-./bin/kafka-topics.sh --zookeeper localhost:2181 --replication-factor 1 --partition 1 --topic connect-test --create

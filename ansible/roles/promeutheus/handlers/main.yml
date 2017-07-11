@@ -1,0 +1,5 @@
+---
+- name: Kafka Restart
+  become: yes
+  become_method: sudo
+  command: systemctl restart kafka

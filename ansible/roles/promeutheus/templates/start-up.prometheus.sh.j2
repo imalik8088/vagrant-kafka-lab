@@ -1,0 +1,5 @@
+#!/bin/bash
+
+nohup {{ prometheus_home }}/prometheus -config.file={{ prometheus_home }}/prometheus.yml &> /tmp/nohup.prometheus.out &
+nohup {{ node_exporter_home }}/node_exporter &> /tmp/nohup.node_exporter.out &
+cd {{ grafana_home }} && nohup ./bin/grafana-server &> /tmp/nohup.grafana.out &

@@ -1,8 +1,11 @@
+prometheus_home: /usr/local/prometheus-1.7.1.linux-amd64
 prometheus_url: https://github.com/prometheus/prometheus/releases/download/v1.7.1/prometheus-1.7.1.linux-amd64.tar.gz
 prometheus_name: prometheus-1.7.1
+node_exporter_home: /usr/local/node_exporter-0.14.0.linux-amd64
 node_exporter_url: https://github.com/prometheus/node_exporter/releases/download/v0.14.0/node_exporter-0.14.0.linux-amd64.tar.gz
 node_exporter_name: node_exporter
 jmx_exporter_url: https://repo1.maven.org/maven2/io/prometheus/jmx/jmx_prometheus_javaagent/0.9/jmx_prometheus_javaagent-0.9.jar
 jmx_exporter_name: jmx_exporter
 grafana_url: https://s3-us-west-2.amazonaws.com/grafana-releases/release/grafana-4.3.2.linux-x64.tar.gz
 grafana_name: grafana
+grafana_home: /usr/local/grafana-4.3.2

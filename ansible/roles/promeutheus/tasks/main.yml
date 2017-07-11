@@ -64,7 +64,46 @@
     src: "{{ download }}/{{ jmx_exporter_name }}.jar"
     dest: "{{ usr_local }}/jmx_exporter"
 
-- name: push prometheus_kafkfa.yml to jmx_exporter
+- name: push prometheus_kafka.yml to jmx_exporter
   template:
     src: templates/prometheus_kafkfa.yml.j2
-    dest: "{{ usr_local }}/jmx_exporter/prometheus_kafkfa.yml"
+    dest: "{{ usr_local }}/jmx_exporter/prometheus_kafka.yml"
+
+- name: added kafka options to Kafka in order to send jmx data to exporter
+  blockinfile:
+    dest: "/home/vagrant/kafka/bin/kafka-server-start.sh"
+    insertbefore: 'exec'
+    block: |
+      JMX_DIR="/usr/local/jmx_exporter"
+      export KAFKA_OPTS="$KAFKA_OPTS -javaagent:$JMX_DIR/jmx_exporter.jar=1234:$JMX_DIR/prometheus_kafka.yml"
+  notify: Kafka Restart
+
+- name: push configurations prometheus.yml
+  template:
+    src: templates/prometheus.yml.j2
+    dest: "{{ usr_local }}/prometheus-1.7.1.linux-amd64/prometheus.yml"
+
+- name: push prometheus start up script
+  become: yes
+  become_method: sudo
+  template:
+    src: templates/start-up.prometheus.sh.j2
+    dest: "{{ prometheus_home }}/start-up.prometheus.sh"
+    mode: 0755
+    owner: vagrant
+    group: vagrant
+  tags:
+    - aaa
+
+- name: start prometheus at boot time
+  cron:
+    name: "start prometheus at boot time"
+    special_time: reboot
+    job: "{{ prometheus_home }}/start-up.prometheus.sh"
+
+- name: start prometheus and node exporter script
+  become: yes
+  become_method: sudo
+  shell: "{{ prometheus_home }}/start-up.prometheus.sh"
+  tags:
+    - aaa
