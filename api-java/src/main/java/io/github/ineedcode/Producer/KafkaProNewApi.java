@@ -23,7 +23,7 @@ public class KafkaProNewApi {
         String data="{taskId: 164,tokenArray: [" +
                 "\"308187f0904411e6830419bbff96e759\",\"dsarewfafas\",\"3erdasd\"]" +
                 "}";
-        ProducerRecord<String,String> record = new ProducerRecord<>("akhlaq","1", data);
+        ProducerRecord<String,String> record = new ProducerRecord<>("simple-producer-consumer","1", data);
             producer.send(record,
                     (metadata, e) -> {
                         if(e != null){

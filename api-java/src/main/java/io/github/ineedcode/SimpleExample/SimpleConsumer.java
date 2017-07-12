@@ -1,4 +1,4 @@
-package io.github.ineedcode.Simple;
+package io.github.ineedcode.SimpleExample;
 
 import org.apache.kafka.clients.consumer.*;
 

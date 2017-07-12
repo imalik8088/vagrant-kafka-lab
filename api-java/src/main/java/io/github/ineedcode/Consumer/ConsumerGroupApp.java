@@ -38,7 +38,7 @@ public class ConsumerGroupApp {
 
         // Create a topic subscription list:
         ArrayList<String> topics = new ArrayList<String>();
-        topics.add("my-topic");
+        topics.add("simple-producer-consumer");
         // topics.add("myNewTopic");
         myConsumer.subscribe(topics);
 
