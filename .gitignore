@@ -1,6 +1,12 @@
+# Generel
 .idea/
+
+# Project
+.vagrant/
 download/
 
-cluster.retry
+# Java
+target/
 
-.vagrant/
+# Ansible
+cluster.retry
