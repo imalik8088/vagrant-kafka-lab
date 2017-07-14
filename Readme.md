@@ -15,6 +15,7 @@
 ```bash
 git clone https://github.com/ineedcode/vagrant-kafka-lab
 cd vagrant-kafka-lab
+vagrant plugin install vagrant-hostmanager
 vagrant up
 ```
 
@@ -54,4 +55,3 @@ ansible-playbook ansible/cluster.yml --tags "new-kafka-config"
 ```bash
 ./bin/connect-standalone.sh config/connect-standalone.properties config/connect-file-source.properties config/connect-file-sink.properties
 ```
-
