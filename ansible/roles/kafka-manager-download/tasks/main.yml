@@ -49,13 +49,13 @@
     mode: 0755
 
 - name: start kafka-manager
-  shell: "nohup {{ kafka_manager_home }}/start-up.sh &"
+  shell: ". {{ kafka_manager_home }}/start-up.sh"
 
 - name: start kafka manager after restart
   cron:
     name: "start kafka manager after restart"
     special_time: reboot
-    job: "nohup {{ kafka_manager_home }}/start-up.sh &"
+    job: "{{ kafka_manager_home }}/start-up.sh"
 
 - name: install kafka-manager systemd unit file
   become: yes
@@ -74,3 +74,19 @@
     state: started
     name: kafka-manager
     daemon_reload: yes
+
+- name: added start-up script to boot script rc.local
+  become: yes
+  become_method: sudo
+  lineinfile:
+    dest: /etc/rc.d/rc.local
+    insertbefore: 'touch'
+    line: "{{ kafka_manager_home }}/start-up.sh"
+
+- name: change mod /etc/rc.d/rc.local to executable
+  become: yes
+  become_method: sudo
+  file:
+    path: /etc/rc.d/rc.local
+    mode: 0744
+    state: file

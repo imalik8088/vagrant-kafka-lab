@@ -92,8 +92,6 @@
     mode: 0755
     owner: vagrant
     group: vagrant
-  tags:
-    - aaa
 
 - name: start prometheus at boot time
   cron:
@@ -105,5 +103,23 @@
   become: yes
   become_method: sudo
   shell: "{{ prometheus_home }}/start-up.prometheus.sh"
+
+- name: added start-up.prometheus.sh script to boot script rc.local
+  become: yes
+  become_method: sudo
+  lineinfile:
+    dest: /etc/rc.d/rc.local
+    insertbefore: 'touch'
+    line: "{{ prometheus_home }}/start-up.prometheus.sh"
+  tags:
+    - aaa
+
+- name: change mod /etc/rc.d/rc.local to executable
+  become: yes
+  become_method: sudo
+  file:
+    path: /etc/rc.d/rc.local
+    mode: 0744
+    state: file
   tags:
     - aaa
