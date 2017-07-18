@@ -25,3 +25,16 @@
   roles:
     - { role: kafka-manager-download, tags: ['kafka-manager-download'] }
     - { role: promeutheus, tags: ['promeutheus'] }
+
+
+- hosts: hadoop-master
+  remote_user: vagrant
+  serial: 100%
+  roles:
+    - hadoop
+
+- hosts: hadoop-slave
+  remote_user: vagrant
+  serial: 100%
+  roles:
+    - hadoop

@@ -8,6 +8,13 @@ kafka-1
 kafka-2
 kafka-3
 
-[kafka:vars]
+[hadoop-master]
+hadoop-1
+
+[hadoop-slave]
+kafka-2
+kafka-3
+
+[all:vars]
 ansible_ssh_user=vagrant
 ansible_ssh_private_key_file=~/.vagrant.d/insecure_private_key

@@ -17,6 +17,8 @@
     owner: root
     group: root
     mode: 0644
+  tags:
+    - aaa
 
 - name: disable firewall
   become: yes

@@ -1,6 +1,7 @@
 ENV["LC_ALL"] = "en_US.UTF-8"
 
 KAFKA = 3
+HADOOP = 1
 
 
 Vagrant.configure("2") do |config|
@@ -22,20 +23,40 @@ Vagrant.configure("2") do |config|
           vb.memory = "2048"
           vb.cpus = "2"
         else
-          vb.memory = "1024"
-          vb.cpus = "1"
+          vb.memory = "3072"
+          vb.cpus = "2"
         end
       end
       kafka.vm.network :private_network, ip: "192.168.10.#{1 + i}", auto_config: true
 
-      if i == KAFKA
-        kafka.vm.provision :ansible do |ansible|
-          ansible.limit = "zookeeper,kafka,kafka-manager-download,kafka-connect"
+      # if i == KAFKA
+      #   kafka.vm.provision :ansible do |ansible|
+      #     ansible.limit = "zookeeper,kafka,kafka-manager-download,kafka-connect"
+      #     ansible.playbook = "ansible/cluster.yml"
+      #     ansible.inventory_path = "ansible/inventories/vbox"
+      #   end
+      # end
+
+    end
+  end
+
+  (HADOOP).downto(1).each do |i|
+    config.vm.define "hadoop-#{i}" do |hadoop|
+      hadoop.vm.hostname = "hadoop-#{i}"
+      hadoop.vm.provider "virtualbox" do |vb|
+        vb.memory = "4096"
+        vb.cpus = "2"
+      end
+      hadoop.vm.network :private_network, ip: "192.168.10.#{KAFKA + 1 + i}", auto_config: true
+
+      if i == 1
+        hadoop.vm.provision :ansible do |ansible|
+          ansible.limit = "all"
           ansible.playbook = "ansible/cluster.yml"
           ansible.inventory_path = "ansible/inventories/vbox"
+          # ansible.raw_arguments  = ["-v"]
         end
       end
-
     end
   end
 
