@@ -4,6 +4,8 @@
   template:
     src: templates/connect-standalone.properties.j2
     dest: "{{ kafka_home }}/config/connect-standalone.properties"
+  tags:
+    - kafka-connect-config
 
 - name: download {{ mongodb_jar_url }}
   run_once: true

@@ -6,7 +6,6 @@
 ## Web UIs
 
 - Grafana: [http://kafka-1:3000](http://kafka-1:3000)
-- Kafka-Manager: [http://kafka-1:9000](http://kafka-1:9000)
 - Prometheus-UI: [http://kafka-1:9090](http://kafka-1:9090)
 
 ## Installation
@@ -36,7 +35,7 @@ In the following you'll find list of components that has been used and with some
 # Ansible
 
 ```bash
-ansible all -i ansible/inventories/vbox/hosts -m ping -o -
+ansible all -i ansible/inventories/vbox/hosts -m ping -o
 ansible-playbook ansible/cluster.yml --tags "new-kafka-config"
 ```
 
