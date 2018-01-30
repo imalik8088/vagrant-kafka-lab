@@ -23,5 +23,5 @@
   remote_user: vagrant
   serial: 100%
   roles:
-    - { role: kafka-manager-download, tags: ['kafka-manager-download'] }
+#    - { role: kafka-manager-download, tags: ['kafka-manager-download'] }
     - { role: promeutheus, tags: ['promeutheus'] }
